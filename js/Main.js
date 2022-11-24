@@ -41,7 +41,26 @@ const createRow = (obj) => {
 
 const renderList = (array) => array.map(createRow);
 
-const ableInput = () => {}
+const ableInput = () => {
+    if (taskInput.value.length > 3) {
+        addBtn.disabled = false;
+    } 
+};
+
+const taskNumber = () => Math.floor(Math.random()* 100);
+
+const addToDoItem = (task) => {
+    task.id = taskNumber();
+    task.status = 'В процессе';
+    toDoList.push(task);
+};
+
+taskInput.addEventListener('input', ableInput);
+
+const resetForm = () => {
+    form.reset();
+    taskInput.textContent = '';
+};
 
 from.addEventListener('submit', e => {
     e.preventDefault();
@@ -49,14 +68,11 @@ from.addEventListener('submit', e => {
 
     const formData = new FormData(e.target);
     const newTask = Object.fromEntries(formData);
+    console.log(newTask);
     addToDoItem(newTask);
     createRow(newTask);
-    form.reset();
-})
-
-const addToDoItem = (task) => {
-    toDoList.push(task);
-};
+    resetForm();
+});
 
 
 const init = () => {

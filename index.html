@@ -15,7 +15,7 @@
     <h3>Todo App</h3>
     <form class="d-flex align-items-center mb-3">
       <label class="form-group me-3 mb-0">
-        <input type="text" class="form-control" placeholder="ввести задачу">
+        <input type="text" class="form-control" placeholder="ввести задачу" name="task" required>
       </label>
 
       <button type="submit" class="btn btn-primary me-3">
@@ -39,37 +39,7 @@
         </thead>
 
         <tbody>
-          <tr class="table-light">
-            <td>1</td>
-            <td class="task">
-              Купить слона
-            </td>
-            <td>В процессе</td>
-            <td>
-              <button class="btn btn-danger">
-                Удалить
-              </button>
-              <button class="btn btn-success">
-                Завершить
-              </button>
-            </td>
-          </tr>
-
-          <tr class="table-success">
-            <td>2</td>
-            <td class="text-decoration-line-through">
-              Помыть кота
-            </td>
-            <td>Выполнена</td>
-            <td>
-              <button class="btn btn-danger">
-                Удалить
-              </button>
-              <button class="btn btn-success">
-                Завершить
-              </button>
-            </td>
-          </tr>
+        
         </tbody>
       </table>
     </div>

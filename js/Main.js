@@ -12,7 +12,7 @@ const tableBody = document.querySelector('tbody');
 const taskInput = document.querySelector('.form-control');
 const addBtn = document.querySelector('.btn-primary');
 const resetBtn = document.querySelector('.btn-warning');
-const from = document.querySelector('form');
+const form = document.querySelector('form');
 
 const setStorage = (key) => {
     localStorage.setItem(key, JSON.stringify(toDoList));
@@ -47,12 +47,16 @@ const ableInput = () => {
     } 
 };
 
-const taskNumber = () => Math.floor(Math.random()* 100);
+const taskNumber = (obj) => {
+    const number = obj.length +1;
+    return number;
+};
 
 const addToDoItem = (task) => {
-    task.id = taskNumber();
+    task.id = taskNumber(toDoList);
     task.status = 'В процессе';
     toDoList.push(task);
+    setStorage(userName);
 };
 
 taskInput.addEventListener('input', ableInput);
@@ -62,13 +66,11 @@ const resetForm = () => {
     taskInput.textContent = '';
 };
 
-from.addEventListener('submit', e => {
+form.addEventListener('submit', e => {
     e.preventDefault();
-    console.log(e.target);
 
     const formData = new FormData(e.target);
     const newTask = Object.fromEntries(formData);
-    console.log(newTask);
     addToDoItem(newTask);
     createRow(newTask);
     resetForm();

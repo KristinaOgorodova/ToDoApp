@@ -32,9 +32,6 @@ const createRow = (obj) => {
 
 const renderList = (array) => array.map(createRow);
 
-const numberOrder = (arr) => {
-
-};
 
 const addClassToRow = () => {
     const row = document.querySelectorAll('tr');
@@ -80,9 +77,9 @@ const deleteTask = (e) => {
       tasks.splice(currentRowIndex, 1);
       setStorage(userName, tasks)
 
-
-
       currentRow.remove();
+      const newTasks = getStorage(userName);
+      newTasks.forEach(task => task.id = taskNumber(newTasks));
     }
 };
 

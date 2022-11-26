@@ -1,28 +1,19 @@
 'use strict';
 
-const toDoList = [
-    { id: '1',
-    task: 'Купить слона',
-    status:'В процессе',
-    }];
-
 const userName = prompt('Введите Ваше Имя!');
 
 const tableBody = document.querySelector('tbody');
 const taskInput = document.querySelector('.form-control');
 const addBtn = document.querySelector('.btn-primary');
-const resetBtn = document.querySelector('.btn-warning');
 const form = document.querySelector('form');
 
-const setStorage = (key) => {
-    localStorage.setItem(key, JSON.stringify(toDoList));
+const setStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
 };
 
 const getStorage = (key) => {
-    JSON.parse(localStorage.getItem(key));
+    return JSON.parse(localStorage.getItem(key)) || [];
 };
-
-const removeItemfromStorage = () => {};
 
 const createRow = (obj) => {
     const tr = document.createElement('tr');
@@ -33,13 +24,24 @@ const createRow = (obj) => {
         `<td class="product-id">${obj.id}</td>
         <td>${obj.task}</td>
         <td>${obj.status}</td>  
-        <td><button class="btn btn-danger">Удалить</button>
-            <button class="btn btn-success">Завершить</button>
+        <td><button class="btn btn-danger" data-action="delete">Удалить</button>
+            <button class="btn btn-success" data-action="done">Завершить</button>
         </td>`);
     tableBody.append(tr);
 };
 
 const renderList = (array) => array.map(createRow);
+
+const numberOrder = (arr) => {
+
+};
+
+const addClassToRow = () => {
+    const row = document.querySelectorAll('tr');
+    row.forEach(tr => {
+        tr.classList.add('tableRow');
+    });
+};
 
 const ableInput = () => {
     if (taskInput.value.length > 3) {
@@ -47,24 +49,62 @@ const ableInput = () => {
     } 
 };
 
-const taskNumber = (obj) => {
-    const number = obj.length +1;
-    return number;
+const taskNumber = (arr) => {
+    const taskNumber = arr.length +1;
+    return taskNumber;
+
 };
 
 const addToDoItem = (task) => {
+    const toDoList = getStorage(userName);
     task.id = taskNumber(toDoList);
     task.status = 'В процессе';
+
     toDoList.push(task);
-    setStorage(userName);
+    setStorage(userName, toDoList);
 };
 
 taskInput.addEventListener('input', ableInput);
 
 const resetForm = () => {
     form.reset();
-    taskInput.textContent = '';
 };
+
+const deleteTask = (e) => {
+    if(e.target.dataset.action === 'delete') {
+      const tasks = getStorage(userName);
+      const currentRow = e.target.closest('.tableRow');
+      const taskId = +currentRow.id;
+      const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
+
+      tasks.splice(currentRowIndex, 1);
+      setStorage(userName, tasks)
+
+
+
+      currentRow.remove();
+    }
+};
+
+tableBody.addEventListener('click', deleteTask);
+
+const doneTask = (e) => {
+    if(e.target.dataset.action === 'done') {
+        const tasks = getStorage(userName);
+        const taskRow = e.target.closest('.table-light');
+
+        const taskId = +taskRow.id;
+        const doneTask = tasks.find((task) => task.id === taskId);
+
+        doneTask.status = 'Выполнено';
+
+        taskRow.classList.add('table-success');
+        taskRow.classList.toggle('table-light');
+
+    }
+};
+
+tableBody.addEventListener('click', doneTask);
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -79,8 +119,10 @@ form.addEventListener('submit', e => {
 
 const init = () => {
     addBtn.disabled = true;
-    getStorage(userName);
-    renderList(toDoList);
+
+    const tasks = getStorage(userName);
+    renderList(tasks);
+    addClassToRow();
 };
 
 init();

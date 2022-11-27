@@ -21,7 +21,7 @@ const createRow = (obj) => {
     tr.classList.add('table-light');
 
     tr.insertAdjacentHTML('beforeend',
-        `<td class="product-id">${obj.id}</td>
+        `<td>${obj.id}</td>
         <td>${obj.task}</td>
         <td>${obj.status}</td>  
         <td><button class="btn btn-danger" data-action="delete">Удалить</button>
@@ -67,41 +67,16 @@ const resetForm = () => {
     form.reset();
 };
 
-const deleteTask = (e) => {
-    if(e.target.dataset.action === 'delete') {
-      const tasks = getStorage(userName);
-      const currentRow = e.target.closest('.tableRow');
-      const taskId = +currentRow.id;
-      const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
-
-      tasks.splice(currentRowIndex, 1);
-      setStorage(userName, tasks)
-
-      currentRow.remove();
-      const newTasks = getStorage(userName);
-      newTasks.forEach(task => task.id = taskNumber(newTasks));
-    }
+const getNewStorageIndexed = (newStorageTask) => {
+    newStorageTask.map((elem, index) => elem.id = index + 1);
 };
 
-tableBody.addEventListener('click', deleteTask);
-
-const doneTask = (e) => {
-    if(e.target.dataset.action === 'done') {
-        const tasks = getStorage(userName);
-        const taskRow = e.target.closest('.table-light');
-
-        const taskId = +taskRow.id;
-        const doneTask = tasks.find((task) => task.id === taskId);
-
-        doneTask.status = 'Выполнено';
-
-        taskRow.classList.add('table-success');
-        taskRow.classList.toggle('table-light');
-
-    }
+const changeTasksListIndex = () => {
+    tableBody.querySelectorAll('tr').forEach((elem, index) => {
+        elem.firstElementChild.textContent = index + 1;
+    });
 };
 
-tableBody.addEventListener('click', doneTask);
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -112,6 +87,45 @@ form.addEventListener('submit', e => {
     createRow(newTask);
     resetForm();
 });
+
+const deleteTask = (e) => {
+    if(e.target.dataset.action === 'delete') {
+        const tasks = getStorage(userName);
+        const currentRow = e.target.closest('.tableRow');
+        const taskId = +currentRow.id;
+        const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
+
+        tasks.splice(currentRowIndex, 1);
+
+        currentRow.remove();
+        getNewStorageIndexed(tasks);
+        changeTasksListIndex();
+        setStorage(userName, tasks);
+    }
+};
+
+tableBody.addEventListener('click', deleteTask);
+
+const doneTask = (e) => {
+    if(e.target.dataset.action === 'done') {
+        const tasks = getStorage(userName);
+        const taskRow = e.target.closest('.table-light');
+
+        const row = taskRow.querySelectorAll('td');
+        row[1].classList.add('text-decoration-line-through');
+        row[2].textContent = 'Выполнено';
+
+        const taskId = +taskRow.id;
+        const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
+        tasks[currentRowIndex].status = 'Выполнено';
+
+        taskRow.classList.add('table-success');
+        taskRow.classList.toggle('table-light');
+        setStorage(userName, tasks);
+    }
+};
+
+tableBody.addEventListener('click', doneTask);
 
 
 const init = () => {

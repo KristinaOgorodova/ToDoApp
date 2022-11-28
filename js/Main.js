@@ -88,13 +88,14 @@ form.addEventListener('submit', e => {
     resetForm();
 });
 
+
 const deleteTask = (e) => {
     if(e.target.dataset.action === 'delete') {
         const tasks = getStorage(userName);
         const currentRow = e.target.closest('.tableRow');
         const taskId = +currentRow.id;
+        console.log(taskId)
         const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
-
         tasks.splice(currentRowIndex, 1);
 
         currentRow.remove();
@@ -109,15 +110,21 @@ tableBody.addEventListener('click', deleteTask);
 const doneTask = (e) => {
     if(e.target.dataset.action === 'done') {
         const tasks = getStorage(userName);
-        const taskRow = e.target.closest('.table-light');
+        const taskRow = e.target.closest('.tableRow');
+        
+        console.log(+taskRow.id)
+        console.log(taskRow)
 
         const row = taskRow.querySelectorAll('td');
         row[1].classList.add('text-decoration-line-through');
         row[2].textContent = 'Выполнено';
 
         const taskId = +taskRow.id;
+        console.log(taskId)
         const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
+
         tasks[currentRowIndex].status = 'Выполнено';
+
 
         taskRow.classList.add('table-success');
         taskRow.classList.toggle('table-light');

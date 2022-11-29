@@ -1,8 +1,8 @@
 import {setStorage, getStorage} from './Storage.js';
-import {userName} from '../Main.js';
+import {userName, tableBody} from '../Main.js';
 import {form} from "./Event.js";
 
-export const tableBody = document.querySelector('tbody');
+
 
 export const createRow = (obj) => {
   const tr = document.createElement('tr');

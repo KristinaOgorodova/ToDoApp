@@ -3,7 +3,7 @@ import {getStorage} from './js/Storage.js';
 import {addClassToRow} from './js/CreateElem.js';
 import {addBtn} from './js/Event.js';
 
-
+const tableBody = document.querySelector('tbody');
 const userName = prompt('Введите Ваше Имя!');
 
 const init = () => {
@@ -16,4 +16,4 @@ const init = () => {
 
 init();
 
-export {userName};
+export {userName,tableBody};

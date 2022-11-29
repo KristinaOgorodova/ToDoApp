@@ -1,5 +1,6 @@
 
-import {createRow, tableBody} from './CreateElem.js';
+import {createRow} from './CreateElem.js';
+import {tableBody} from "../Main.js";
 
 export const renderList = (array) => array.map(createRow);
 

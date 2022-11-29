@@ -1,5 +1,5 @@
-import {userName} from '../Main.js';
-import {addToDoItem, createRow, resetForm, tableBody} from './CreateElem.js';
+import {userName,tableBody} from '../Main.js';
+import {addToDoItem, createRow, resetForm} from './CreateElem.js';
 import {getStorage, setStorage} from './Storage.js';
 import {getNewStorageIndexed, changeTasksListIndex} from './Render.js';
 
@@ -14,16 +14,6 @@ const ableInput = () => {
 };
 
 taskInput.addEventListener('input', ableInput);
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-
-  const formData = new FormData(e.target);
-  const newTask = Object.fromEntries(formData);
-  addToDoItem(newTask);
-  createRow(newTask);
-  resetForm();
-});
 
 const deleteTask = (e) => {
   if (e.target.dataset.action === 'delete') {
@@ -56,7 +46,6 @@ const doneTask = (e) => {
     const currentRowIndex = tasks.findIndex((task) => task.id === taskId);
     tasks[currentRowIndex].status = 'Выполнено';
 
-
     taskRow.classList.add('table-success');
     taskRow.classList.toggle('table-light');
     setStorage(userName, tasks);
@@ -64,4 +53,14 @@ const doneTask = (e) => {
 };
 
 tableBody.addEventListener('click', doneTask);
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const newTask = Object.fromEntries(formData);
+  addToDoItem(newTask);
+  createRow(newTask);
+  resetForm();
+});
 

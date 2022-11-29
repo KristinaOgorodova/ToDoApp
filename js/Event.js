@@ -33,6 +33,7 @@ const deleteTask = (e) => {
 
 tableBody.addEventListener('click', deleteTask);
 
+
 const doneTask = (e) => {
   if (e.target.dataset.action === 'done') {
     const tasks = getStorage(userName);

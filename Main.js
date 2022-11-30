@@ -1,10 +1,8 @@
 import {renderList} from './js/Render.js';
 import {getStorage} from './js/Storage.js';
 import {addClassToRow} from './js/CreateElem.js';
-import {addBtn} from './js/Event.js';
+import {addBtn, userName} from './js/Event.js';
 
-const userName = prompt('Введите Ваше Имя!');
-const tableBody = document.querySelector('tbody');
 
 const init = () => {
   addBtn.disabled = true;
@@ -16,4 +14,3 @@ const init = () => {
 
 init();
 
-export {userName,tableBody};

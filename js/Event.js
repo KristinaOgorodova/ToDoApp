@@ -1,8 +1,10 @@
-import {userName,tableBody} from '../Main.js';
+
 import {addToDoItem, createRow, resetForm} from './CreateElem.js';
 import {getStorage, setStorage} from './Storage.js';
 import {getNewStorageIndexed, changeTasksListIndex} from './Render.js';
 
+export const userName = prompt('Введите Ваше Имя!');
+export const tableBody = document.querySelector('tbody');
 export const taskInput = document.querySelector('.form-control');
 export const addBtn = document.querySelector('.btn-primary');
 export const form = document.querySelector('form');
@@ -32,7 +34,6 @@ const deleteTask = (e) => {
 };
 
 tableBody.addEventListener('click', deleteTask);
-
 
 const doneTask = (e) => {
   if (e.target.dataset.action === 'done') {

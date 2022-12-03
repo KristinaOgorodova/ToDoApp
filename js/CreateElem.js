@@ -12,6 +12,7 @@ export const createRow = (obj) => {
         <td><button class="btn btn-danger" data-action="delete">Удалить</button>
             <button class="btn btn-success" data-action="done">Завершить</button>
         </td>`);
+   tr.id = obj.id;
 
   if (obj.status === 'Выполнено') {
     tr.classList.add('table-success');
@@ -21,23 +22,13 @@ export const createRow = (obj) => {
     tr.classList.add('table-light');
   }
 
-  tr.id = obj.id;
-
   tableBody.append(tr);
-};
-
-export const addClassToRow = () => {
-  const row = document.querySelectorAll('tr');
-  row.forEach(tr => {
-    tr.classList.add('tableRow');
-  });
 };
 
 const taskNumber = (arr) => {
   const taskNumber = arr.length + 1;
   return taskNumber;
 };
-
 
 export const addToDoItem = (task) => {
   const toDoList = getStorage(userName);
